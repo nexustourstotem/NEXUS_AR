@@ -4,31 +4,42 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Experiencia VR Nexus Tours</title>
-  <!-- Importa model-viewer -->
+
+  <!-- Carga model-viewer -->
   <script type="module"
-          src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
+    src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
   </script>
+
   <style>
-    /* Reset básico */
+    /* Reset */
     * { margin:0; padding:0; box-sizing:border-box; }
-    html, body { width:100%; height:100%; font-family:sans-serif; background:#fff; color:#333; }
-    /* Centrado vertical/horizontal */
+    html, body {
+      width:100%; height:100%;
+      font-family:sans-serif; background:#fff; color:#333;
+    }
+
+    /* Contenedor centrado */
     .hero {
       display:flex; flex-direction:column;
       justify-content:center; align-items:center;
       height:100vh; text-align:center; padding:1rem;
     }
     .hero h1 {
-      color:#fa7f17; margin-bottom:1.5rem;
-      font-size:1.5rem; text-transform:uppercase; letter-spacing:0.05em;
+      color:#fa7f17;
+      margin-bottom:1.5rem;
+      font-size:1.5rem;
+      text-transform:uppercase;
+      letter-spacing:0.05em;
     }
-    /* Logo 3D IN-SITE */
-    #logo3d {
+
+    /* Model-viewer que muestra logo o mundito */
+    #viewer {
       width:60vw; max-width:300px; margin-bottom:1.5rem;
       cursor:grab; border-radius:0.5rem;
       box-shadow:0 4px 12px rgba(0,0,0,0.15);
     }
-    /* Botón VR EXPERIENCE */
+
+    /* Botón VR */
     #btn-vr {
       background:#fa7f17; color:#fff;
       border:none; padding:0.75rem 2rem;
@@ -41,21 +52,20 @@
       transform:translateY(-2px);
       box-shadow:0 6px 16px rgba(0,0,0,0.25);
     }
-    /* Oculta el modelo AR hasta que se active */
-    #ar3d { display:none; }
   </style>
 </head>
 <body>
   <section class="hero">
     <h1>Experiencia VR Nexus Tours</h1>
 
-    <!-- Logo 3D in-site: pega aquí tu URL de Release v1.1 -->
+    <!-- Este único model-viewer carga primero el logo -->
     <model-viewer
-      id="logo3d"
+      id="viewer"
       src="https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.1/logo.glb"
       ios-src="https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.1/logo.usdz"
       alt="Logo Nexus Tours"
-      camera-controls auto-rotate
+      camera-controls
+      auto-rotate
       environment-image="neutral"
       shadow-intensity="1"
       interaction-prompt="auto">
@@ -64,23 +74,18 @@
     <button id="btn-vr">VR EXPERIENCE</button>
   </section>
 
-  <!-- Modelo AR oculto: pega aquí tu URL de Release v1.0 -->
-  <model-viewer
-    id="ar3d"
-    src="https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.0/pyramid.glb"
-    ios-src="https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.0/pyramid.usdz"
-    alt="Modelo AR Nexus"
-    ar
-    ar-modes="scene-viewer quick-look webxr"
-    interaction-prompt="auto">
-  </model-viewer>
-
   <script>
-    // Al pulsar, muestra y lanza el AR
+    // URLs de tu Release (¡reemplázalas con las tuyas si cambian!)
+    const pyramidGlb  = 'https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.0/pyramid.glb';
+    const pyramidUsdz = 'https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.0/pyramid.usdz';
+
+    const viewer = document.getElementById('viewer');
     document.getElementById('btn-vr').addEventListener('click', () => {
-      const ar = document.getElementById('ar3d');
-      ar.style.display = 'block';
-      if (ar.enterAR) ar.enterAR();
+      // Cambia el modelo al "mundito"
+      viewer.setAttribute('src', pyramidGlb);
+      viewer.setAttribute('ios-src', pyramidUsdz);
+      // Lanza AR/VR directamente
+      if (viewer.enterAR) viewer.enterAR();
     });
   </script>
 </body>
