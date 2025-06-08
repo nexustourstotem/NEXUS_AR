@@ -3,65 +3,92 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Nexus AR</title>
-  <!-- Google Model Viewer -->
+  <title>Experiencia VR Nexus Tours</title>
+  <!-- model-viewer -->
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   <style>
     /* Reset */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body, html { width: 100%; height: 100%; font-family: 'Helvetica Neue', Arial, sans-serif; background: #f5f5f5; }
-
-    /* Header */
-    header { background: #007F5F; padding: 1rem; display: flex; align-items: center; justify-content: space-between; position: fixed; top: 0; width: 100%; z-index: 10; }
-    .logo-btn { background: none; border: none; cursor: pointer; }
-    .logo-btn img { width: 50px; height: 50px; transition: transform 0.3s; }
-    /* Spin on tap or hover */
-    .logo-btn:active img, .logo-btn:hover img { animation: spin 2s linear infinite; }
-    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-    .ar-btn { background: #A8FF60; color: #004B3A; padding: 0.5rem 1rem; border: none; border-radius: 0.5rem; font-weight: bold; text-decoration: none; cursor: pointer; }
-
-    /* Main content */
-    main { padding: 6rem 2rem 2rem; text-align: center; }
-    .ar-info { margin-bottom: 1rem; font-size: 1.2rem; color: #333; }
-    #ar-section { width: 80%; height: 60vh; margin: 0 auto; }
-    model-viewer { width: 100%; height: 100%; border-radius: 0.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-
-    /* Footer */
-    footer { background: #004B3A; color: #fff; text-align: center; padding: 1rem; position: fixed; bottom: 0; width: 100%; }
-    footer a { color: #A8FF60; text-decoration: none; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html, body { width:100%; height:100%; font-family:'Helvetica Neue', Arial, sans-serif; background:#fff; color:#333; }
+    /* Contenedor central */
+    .hero {
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      height:100vh;
+      text-align:center;
+      padding:2rem;
+    }
+    .hero h1 {
+      font-size:1.6rem;
+      margin-bottom:1.5rem;
+      color:#fa7f17;
+      text-transform:uppercase;
+      letter-spacing:0.05em;
+    }
+    /* Logo 3D interactivo */
+    #logo3d {
+      width:60vw;
+      max-width:300px;
+      height:auto;
+      margin-bottom:1.5rem;
+      cursor:grab;
+      border-radius:0.5rem;
+      box-shadow:0 4px 12px rgba(0,0,0,0.15);
+    }
+    /* Botón VR EXPERIENCE */
+    .btn-vr {
+      background:#fa7f17;
+      color:#fff;
+      border:none;
+      padding:0.75rem 2rem;
+      font-size:1rem;
+      font-weight:bold;
+      border-radius:999px;
+      cursor:pointer;
+      box-shadow:0 4px 12px rgba(0,0,0,0.2);
+      transition:transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-vr:hover {
+      transform:translateY(-2px);
+      box-shadow:0 6px 16px rgba(0,0,0,0.25);
+    }
   </style>
 </head>
 <body>
-  <!-- Header with rotating logo button and AR Experience link -->
-  <header>
-    <button class="logo-btn" onclick="window.location.href='https://www.nexustours.com'">
-      <img src="assets/logo.png" alt="Nexus Tours Logo" />
-    </button>
-    <a href="#ar-section" class="ar-btn">AR Experience</a>
-  </header>
+  <section class="hero">
+    <h1>Experiencia VR Nexus Tours</h1>
+    <!-- Logo 3D rotatorio IN-SITE -->
+    <model-viewer
+      id="logo3d"
+      src="https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.1/logo.glb"
+      ios-src="https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.1/logo.usdz"
+      alt="Logo Nexus Tours"
+      camera-controls
+      auto-rotate
+      environment-image="neutral"
+      shadow-intensity="1">
+    </model-viewer>
+    <!-- Botón que lanza la experiencia AR/VR -->
+    <button class="btn-vr">VR EXPERIENCE</button>
+  </section>
 
-  <main>
-    <div class="ar-info">Toca el logo para ver la web de Nexus Tours, o haz clic en 'AR Experience' para comenzar en realidad aumentada.</div>
-    <div id="ar-section">
-      <model-viewer
-        src="https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.0/pyramid.glb"
-        ios-src="https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.0/pyramid.usdz"
-        alt="Experiencia AR Nexus"
-        camera-controls
-        auto-rotate
-        ar
-        ar-modes="scene-viewer quick-look webxr"
-        environment-image="neutral"
-        shadow-intensity="1"
-      >
-        <button slot="ar-button" class="ar-btn">Ver en tu espacio</button>
-      </model-viewer>
-    </div>
-  </main>
+  <!-- Modelo para AR, oculto en la página -->
+  <model-viewer
+    id="ar3d"
+    style="width:0;height:0;position:absolute;pointer-events:none;"
+    src="https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.1/pyramid.glb"
+    ios-src="https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.1/pyramid.usdz"
+    ar
+    ar-modes="scene-viewer quick-look webxr">
+  </model-viewer>
 
-  <footer>
-    &copy; 2025 Nexus Tours. Diseñado con AR.
-    <br><a href="https://www.nexustours.com" target="_blank">nexustours.com</a>
-  </footer>
+  <script>
+    document.querySelector('.btn-vr').addEventListener('click', () => {
+      const ar = document.getElementById('ar3d');
+      if (ar.enterAR) ar.enterAR();
+    });
+  </script>
 </body>
 </html>
