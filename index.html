@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mi Mundito AR</title>
+  <!-- Carga model-viewer -->
+  <script type="module"
+    src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
+  </script>
+  <style>
+    html, body { margin:0; height:100%; }
+    model-viewer { width:100%; height:100%; }
+  </style>
+</head>
+<body>
+  <model-viewer
+    src="__URL_GLTF__"
+    ios-src="__URL_USDZ__"
+    alt="Mi Mundito AR"
+    camera-controls
+    auto-rotate
+    ar
+    ar-modes="scene-viewer quick-look webxr"
+    environment-image="neutral"
+    shadow-intensity="1"
+  >
+    <button slot="ar-button">Ver en tu espacio</button>
+  </model-viewer>
+</body>
+</html>
