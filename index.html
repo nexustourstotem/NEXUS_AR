@@ -11,54 +11,53 @@
   <style>
     /* Reset básico */
     * { margin:0; padding:0; box-sizing:border-box; }
-    html, body {
+    html,body {
       width:100%; height:100%;
-      font-family: 'Helvetica Neue', Arial, sans-serif;
-      background: #fff; color: #333;
+      font-family:'Helvetica Neue', Arial, sans-serif;
+      background:#fff; color:#333;
     }
-    /* Centro vertical y horizontal */
+    /* Contenedor central */
     .hero {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      text-align: center;
-      padding: 1rem;
+      display:flex; flex-direction:column;
+      justify-content:center; align-items:center;
+      height:100vh; text-align:center; padding:1rem;
     }
     .hero h1 {
-      color: #fa7f17;
-      font-size: 1.5rem;
-      text-transform: uppercase;
-      letter-spacing: .05em;
-      margin-bottom: 1.5rem;
+      color:#fa7f17;
+      font-size:1.5rem;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+      margin-bottom:1.5rem;
     }
     /* Logo PNG grande */
     .logo {
-      width: 60vw;
-      max-width: 300px;
-      margin-bottom: 1.5rem;
+      width:60vw;
+      max-width:300px;
+      margin-bottom:1.5rem;
     }
     /* Botón VR EXPERIENCE */
     #btn-vr {
-      background: #fa7f17;
-      color: #fff;
-      border: none;
-      padding: .75rem 2rem;
-      font-size: 1rem;
-      font-weight: bold;
-      border-radius: 999px;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      transition: transform .2s, box-shadow .2s;
+      background:#fa7f17;
+      color:#fff;
+      border:none;
+      padding:.75rem 2rem;
+      font-size:1rem;
+      font-weight:bold;
+      border-radius:999px;
+      cursor:pointer;
+      box-shadow:0 4px 12px rgba(0,0,0,0.2);
+      transition:transform .2s, box-shadow .2s;
     }
     #btn-vr:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+      transform:translateY(-2px);
+      box-shadow:0 6px 16px rgba(0,0,0,0.25);
     }
-    /* Oculta el model-viewer AR hasta su uso */
+    /* Oculta el model-viewer AR hasta activarlo */
     #ar3d {
       display: none;
+      width: 1px;
+      height: 1px;
+      position: absolute;
     }
   </style>
 </head>
@@ -69,23 +68,28 @@
     <!-- Logo PNG -->
     <img src="assets/logo.png" alt="Nexus Tours Logo" class="logo">
 
-    <!-- Botón que lanza el AR/VR -->
+    <!-- Botón que dispara el AR/VR -->
     <button id="btn-vr">VR EXPERIENCE</button>
   </section>
 
-  <!-- model-viewer oculto para AR -->
+  <!-- model-viewer oculto que aloja tu “pyramid” -->
   <model-viewer
     id="ar3d"
     src="https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.0/pyramid.glb"
     ios-src="https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.0/pyramid.usdz"
+    alt="Nexus AR Model"
     ar
-    ar-modes="scene-viewer quick-look webxr">
+    ar-modes="scene-viewer quick-look webxr"
+    interaction-prompt="none"
+  >
+    <!-- Esto quita el icono por defecto -->
+    <button slot="ar-button" hidden></button>
   </model-viewer>
 
   <script>
     document.getElementById('btn-vr').addEventListener('click', () => {
       const ar = document.getElementById('ar3d');
-      // Muestra el elemento y lanza AR/VR
+      // Lo hacemos visible (aunque pequeño) y lanzamos AR directo
       ar.style.display = 'block';
       if (ar.enterAR) ar.enterAR();
     });
