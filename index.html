@@ -4,51 +4,56 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Mi Mundito AR</title>
-  <!-- Model Viewer -->
-  <script type="module"
-    src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
-  </script>
+  <!-- Carga model-viewer -->
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   <style>
-    /* Full‐screen viewer */
-    html, body { margin: 0; height: 100%; }
-    model-viewer { width: 100%; height: 100%; }
-
-    /* AR‐button styling */
-    button[slot="ar-button"] {
-      position: absolute;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #fa7f17;
-      color: white;
-      padding: 0.75em 2em;
-      border: none;
-      border-radius: 2em;
-      font-size: 1rem;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      z-index: 10;
-    }
-    button[slot="ar-button"]:hover {
-      opacity: 0.9;
-    }
+    /* Reset */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html, body { width:100%; height:100%; background:#fff; font-family:'Helvetica Neue', Arial, sans-serif; color:#333; }
+    /* Contenedor */
+    .hero { display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; text-align:center; padding:1rem; }
+    .hero h1 { color:#fa7f17; font-size:1.5rem; text-transform:uppercase; letter-spacing:.05em; margin-bottom:1.5rem; }
+    /* Logo PNG centrado */
+    .logo { width:50vw; max-width:200px; margin-bottom:1rem; }
+    /* Model Viewer con póster */
+    model-viewer { width:60vw; max-width:300px; height:auto; margin-bottom:1rem; border-radius:0.5rem; box-shadow:0 4px 12px rgba(0,0,0,0.15); }
+    /* Botón externo */
+    .btn-ar { background:#fa7f17; color:#fff; border:none; padding:.75rem 2rem; font-size:1rem; font-weight:bold; border-radius:999px; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.2); transition:transform .2s,box-shadow .2s; }
+    .btn-ar:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,0.25); }
   </style>
 </head>
 <body>
-  <model-viewer
-    src="https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.0/pyramid.glb"
-    ios-src="https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.0/pyramid.usdz"
-    alt="Mi Mundito AR"
-    camera-controls
-    auto-rotate
-    ar
-    ar-modes="scene-viewer quick-look webxr"
-    environment-image="neutral"
-    shadow-intensity="1"
-    interaction-prompt="auto"
-  >
-    <button slot="ar-button">Ver en tu espacio</button>
-  </model-viewer>
+  <section class="hero">
+    <h1>Mi Mundito AR</h1>
+    <!-- Logo PNG -->
+    <img src="assets/logo.png" alt="Logo" class="logo" />
+
+    <!-- Model Viewer con póster del logo, muestra botón AR externo -->
+    <model-viewer id="viewer"
+      poster="assets/logo.png"
+      src="https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.0/pyramid.glb"
+      ios-src="https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.0/pyramid.usdz"
+      alt="Mi Mundito AR"
+      camera-controls 
+      auto-rotate 
+      ar 
+      ar-modes="scene-viewer quick-look webxr"
+      environment-image="neutral"
+      shadow-intensity="1"
+      interaction-prompt="none">
+    </model-viewer>
+
+    <!-- Botón que lanza AR con un solo click -->
+    <button class="btn-ar" id="btn-ar">Ver en tu espacio</button>
+  </section>
+
+  <script>
+    const viewer = document.getElementById('viewer');
+    document.getElementById('btn-ar').addEventListener('click', () => {
+      if (viewer.enterAR) {
+        viewer.enterAR();
+      }
+    });
+  </script>
 </body>
 </html>
