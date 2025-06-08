@@ -1,0 +1,39 @@
+<!-- ar.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AR Mode - Nexus Tours</title>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <style>
+    html,body{margin:0;height:100%;width:100%;overflow:hidden;}
+    model-viewer{width:100%;height:100%;}
+  </style>
+</head>
+<body>
+  <model-viewer
+    src="https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.0/pyramid.glb"
+    ios-src="https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.0/pyramid.usdz"
+    alt="Nexus AR Model"
+    ar
+    ar-modes="scene-viewer quick-look webxr"
+    camera-controls
+    auto-rotate
+    environment-image="neutral"
+    shadow-intensity="1"
+    interaction-prompt="auto">
+  </model-viewer>
+  <script>
+    // Al cargar, lanzamos AR (necesita user gesture: navegador inicia tras botón que redirige)
+    document.addEventListener('DOMContentLoaded', () => {
+      const mv = document.querySelector('model-viewer');
+      // Espera un click implícito de la redirección
+      mv.pause();
+      setTimeout(() => {
+        if (mv.enterAR) mv.enterAR();
+      }, 100);
+    });
+  </script>
+</body>
+</html>
