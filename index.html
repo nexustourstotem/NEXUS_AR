@@ -1,105 +1,54 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Mi Mundito AR</title>
-  <!-- Carga model-viewer -->
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <!-- Model Viewer -->
+  <script type="module"
+    src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
+  </script>
   <style>
-    /* Reset básico */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 100%; height: 100%; background: #fff; font-family: 'Helvetica Neue', Arial, sans-serif; color: #333; }
+    /* Full‐screen viewer */
+    html, body { margin: 0; height: 100%; }
+    model-viewer { width: 100%; height: 100%; }
 
-    /* Contenedor centrado */
-    .hero {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      text-align: center;
-      padding: 1rem;
-    }
-
-    /* Logo PNG grande */
-    .logo {
-      width: 50vw;
-      max-width: 200px;
-      margin-bottom: 1.5rem;
-    }
-
-    /* Model Viewer */
-    model-viewer {
-      width: 80vw;
-      max-width: 400px;
-      height: auto;
-      margin-bottom: 1.5rem;
-      border-radius: 0.5rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    }
-
-    /* Botón AR estilizado */
-    .ar-button {
-      background-color: #fa7f17;
-      color: #fff;
+    /* AR‐button styling */
+    button[slot="ar-button"] {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fa7f17;
+      color: white;
+      padding: 0.75em 2em;
       border: none;
-      padding: 0.75rem 2rem;
+      border-radius: 2em;
       font-size: 1rem;
       font-weight: bold;
-      border-radius: 999px;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 10;
     }
-    .ar-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+    button[slot="ar-button"]:hover {
+      opacity: 0.9;
     }
   </style>
 </head>
 <body>
-  <section class="hero">
-    <!-- Logo PNG -->
-    <img src="assets/logo.png" alt="Nexus Tours Logo" class="logo" />
-
-    <!-- Un único model-viewer para AR -->
-    <model-viewer id="viewer"
-      src="https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.0/pyramid2.glb"
-      ios-src="https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.0/Pyramid2.usdz"
-      alt="Mi Mundito AR"
-      camera-controls
-      auto-rotate
-      ar
-      ar-modes="scene-viewer quick-look webxr"
-      environment-image="neutral"
-      shadow-intensity="1"
-    >
-      <button slot="ar-button" class="ar-button">Ver en tu espacio</button>
-    </model-viewer>
-  </section>
-
-  <script>
-    const viewer = document.getElementById('viewer');
-    const button = document.querySelector('button[slot="ar-button"]');
-    const glbUrl = 'https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.0/pyramid.glb';
-    const usdzUrl = 'https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.0/pyramid.usdz';
-
-    button.addEventListener('click', () => {
-      // Intenta AR SDK nativo
-      if (viewer.enterAR) {
-        viewer.enterAR();
-      } else {
-        // Fallback manual: iOS Quick Look o Android Scene Viewer
-        const ua = navigator.userAgent || '';
-        if (/iPhone|iPad|iPod/.test(ua)) {
-          window.location.href = usdzUrl;
-        } else {
-          const sceneUrl = 'https://arvr.google.com/scene-viewer/1.0?file=' + encodeURIComponent(glbUrl) + '&mode=ar_preferred';
-          window.location.href = sceneUrl;
-        }
-      }
-    });
-  </script>
+  <model-viewer
+    src="https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.0/pyramid.glb"
+    ios-src="https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.0/pyramid.usdz"
+    alt="Mi Mundito AR"
+    camera-controls
+    auto-rotate
+    ar
+    ar-modes="scene-viewer quick-look webxr"
+    environment-image="neutral"
+    shadow-intensity="1"
+    interaction-prompt="auto"
+  >
+    <button slot="ar-button">Ver en tu espacio</button>
+  </model-viewer>
 </body>
 </html>
