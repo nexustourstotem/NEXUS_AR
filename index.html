@@ -5,28 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Experiencia VR Nexus Tours</title>
   <!-- model-viewer -->
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <script type="module"
+          src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
+  </script>
   <style>
     /* Reset */
-    * { margin:0; padding:0; box-sizing:border-box; }
-    html, body { width:100%; height:100%; font-family:'Helvetica Neue', Arial, sans-serif; background:#fff; color:#333; }
-    /* Contenedor central */
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html,body{width:100%;height:100%;font-family:sans-serif;background:#fff;color:#333;}
+
+    /* Centro vertical y horizontal */
     .hero {
       display:flex;
       flex-direction:column;
-      align-items:center;
       justify-content:center;
+      align-items:center;
       height:100vh;
       text-align:center;
-      padding:2rem;
+      padding:1rem;
     }
     .hero h1 {
-      font-size:1.6rem;
-      margin-bottom:1.5rem;
       color:#fa7f17;
+      margin-bottom:1.5rem;
+      font-size:1.5rem;
       text-transform:uppercase;
       letter-spacing:0.05em;
     }
+
     /* Logo 3D interactivo */
     #logo3d {
       width:60vw;
@@ -37,8 +41,9 @@
       border-radius:0.5rem;
       box-shadow:0 4px 12px rgba(0,0,0,0.15);
     }
+
     /* Botón VR EXPERIENCE */
-    .btn-vr {
+    #btn-vr {
       background:#fa7f17;
       color:#fff;
       border:none;
@@ -48,18 +53,24 @@
       border-radius:999px;
       cursor:pointer;
       box-shadow:0 4px 12px rgba(0,0,0,0.2);
-      transition:transform 0.2s, box-shadow 0.2s;
+      transition:transform 0.2s,box-shadow 0.2s;
     }
-    .btn-vr:hover {
+    #btn-vr:hover {
       transform:translateY(-2px);
       box-shadow:0 6px 16px rgba(0,0,0,0.25);
+    }
+
+    /* Oculta el modelo AR en la página */
+    #ar3d {
+      display:none;
     }
   </style>
 </head>
 <body>
   <section class="hero">
     <h1>Experiencia VR Nexus Tours</h1>
-    <!-- Logo 3D rotatorio IN-SITE -->
+
+    <!-- Logo 3D que rotas in-site -->
     <model-viewer
       id="logo3d"
       src="https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.1/logo.glb"
@@ -68,25 +79,31 @@
       camera-controls
       auto-rotate
       environment-image="neutral"
-      shadow-intensity="1">
+      shadow-intensity="1"
+      interaction-prompt="auto"
+      >
     </model-viewer>
-    <!-- Botón que lanza la experiencia AR/VR -->
-    <button class="btn-vr">VR EXPERIENCE</button>
+
+    <!-- Botón para lanzar AR/VR -->
+    <button id="btn-vr">VR EXPERIENCE</button>
   </section>
 
-  <!-- Modelo para AR, oculto en la página -->
+  <!-- Modelo AR oculto, con tu mundito de Release v1.0 -->
   <model-viewer
     id="ar3d"
-    style="width:0;height:0;position:absolute;pointer-events:none;"
-    src="https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.1/pyramid.glb"
-    ios-src="https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.1/pyramid.usdz"
+    src="https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.0/pyramid.glb"
+    ios-src="https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.0/pyramid.usdz"
+    alt="Nexus AR Model"
     ar
-    ar-modes="scene-viewer quick-look webxr">
+    ar-modes="scene-viewer quick-look webxr"
+    interaction-prompt="auto">
   </model-viewer>
 
   <script>
-    document.querySelector('.btn-vr').addEventListener('click', () => {
+    // Cuando pulses VR EXPERIENCE, mostramos y lanzamos el AR viewer
+    document.getElementById('btn-vr').addEventListener('click', () => {
       const ar = document.getElementById('ar3d');
+      ar.style.display = 'block';
       if (ar.enterAR) ar.enterAR();
     });
   </script>
