@@ -1,88 +1,65 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Experiencia VR Nexus Tours</title>
-  <!-- Model Viewer -->
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   <style>
-    /* Reset */
     * { margin:0; padding:0; box-sizing:border-box; }
-    html, body { width:100%; height:100%; font-family: Arial, sans-serif; background:#fff; color:#333; }
-    /* Contenedor Hero */
+    html,body { width:100%; height:100%; font-family:sans-serif; background:#fff; color:#333; }
     .hero {
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
-      height:100vh;
-      text-align:center;
-      padding:1rem;
+      display:flex; flex-direction:column;
+      justify-content:center; align-items:center;
+      height:100vh; text-align:center; padding:1rem;
     }
     .hero h1 {
-      color:#fa7f17;
-      font-size:1.6rem;
-      text-transform:uppercase;
-      letter-spacing:0.05em;
+      color:#fa7f17; font-size:1.6rem;
+      text-transform:uppercase; letter-spacing:.05em;
       margin-bottom:1.5rem;
     }
-    /* Logo PNG grande */
     .logo {
-      width:60vw;
-      max-width:300px;
+      width:60vw; max-width:300px;
       margin-bottom:1.5rem;
     }
-    /* Botón VR EXPERIENCE */
-    .btn-vr {
-      background:#fa7f17;
-      color:#fff;
-      border:none;
-      padding:0.75rem 2rem;
-      font-size:1rem;
-      font-weight:bold;
-      border-radius:999px;
-      cursor:pointer;
+    #btn-vr {
+      background:#fa7f17; color:#fff;
+      border:none; padding:.75rem 2rem;
+      font-size:1rem; font-weight:bold;
+      border-radius:999px; cursor:pointer;
       box-shadow:0 4px 12px rgba(0,0,0,0.2);
-      transition:transform 0.2s, box-shadow 0.2s;
+      transition:transform .2s, box-shadow .2s;
     }
-    .btn-vr:hover {
+    #btn-vr:hover {
       transform:translateY(-2px);
       box-shadow:0 6px 16px rgba(0,0,0,0.25);
-    }
-    /* Model Viewer oculto pero activo */
-    #ar3d {
-      position:absolute;
-      width:1px; height:1px;
-      opacity:0;
-      visibility:hidden;
     }
   </style>
 </head>
 <body>
   <section class="hero">
     <h1>Experiencia VR Nexus Tours</h1>
-    <img src="assets/logo.png" alt="Nexus Tours Logo" class="logo" />
-    <button class="btn-vr" id="btn-vr">VR EXPERIENCE</button>
+    <img src="assets/logo.png" alt="Nexus Tours Logo" class="logo">
+
+    <button id="btn-vr">VR EXPERIENCE</button>
   </section>
 
-  <model-viewer
-    id="ar3d"
-    src="https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.0/pyramid.glb"
-    ios-src="https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.0/pyramid.usdz"
-    ar
-    ar-modes="scene-viewer quick-look webxr"
-    camera-controls
-    auto-rotate
-    environment-image="neutral"
-    shadow-intensity="1"
-    reveal="manual">
-  </model-viewer>
-
   <script>
+    const GLB_URL = 'https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.0/pyramid.glb';
+    const USDZ_URL = 'https://github.com/nexustourstotem/NEXUS_AR/releases/download/v1.0/pyramid.usdz';
+
     document.getElementById('btn-vr').addEventListener('click', () => {
-      const ar = document.getElementById('ar3d');
-      if (ar.enterAR) ar.enterAR();
+      const ua = navigator.userAgent || '';
+      if (/iPhone|iPad|iPod/.test(ua)) {
+        // iOS: Quick Look para USDZ
+        window.location.href = USDZ_URL;
+      } else {
+        // Android/Chrome: Scene Viewer para GLB
+        const sceneViewerUrl = 
+          'https://arvr.google.com/scene-viewer/1.0?file=' 
+          + encodeURIComponent(GLB_URL) 
+          + '&mode=ar_preferred';
+        window.location.href = sceneViewerUrl;
+      }
     });
   </script>
 </body>
